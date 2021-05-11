@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config>
+        <menu>
+            <admingrid module="admingrid">
+                <title>admingrid</title>
+                <sort_order>80</sort_order>               
+                <children>
+                    <items module="admingrid">
+                        <title>childs</title>
+                        <sort_order>0</sort_order>
+                        <action>admingrid/adminhtml_admingrid</action>
+                    </items>
+                </children>
+            </admingrid>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <admingrid>
+                            <title>AdminGrid Module</title>
+                            <sort_order>201</sort_order>
+                        </admingrid>
+                    </children>
+                </admin>
+            </resources>
+
+        </acl> 
+        <layout>
+            <updates>
+                <admingrid>
+                    <file>admingrid.xml</file>
+                </admingrid>
+            </updates>
+        </layout>
+</config>

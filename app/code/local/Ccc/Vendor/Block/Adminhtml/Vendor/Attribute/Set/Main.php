@@ -61,7 +61,7 @@ class Ccc_Vendor_Block_Adminhtml_Vendor_Attribute_Set_Main extends Mage_Adminhtm
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'label'     => Mage::helper('vendor')->__('Delete Attribute Set'),
-                'onclick'   => 'deleteConfirm(\'' . $deleteConfirmMessage . '\', \'' . $deleteUrl . '\')',
+                'onclick'   => 'deleteConfirm(\'' . $deleteConfirmMessage . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
                 'class'     => 'delete'
         )));
 

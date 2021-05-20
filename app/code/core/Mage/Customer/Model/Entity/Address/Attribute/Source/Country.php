@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -33,7 +34,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Entity_Address_Attribute_Source_Country
-    extends Mage_Customer_Model_Resource_Address_Attribute_Source_Country
+extends Mage_Customer_Model_Resource_Address_Attribute_Source_Country
 {
     /**
      * Factory instance
@@ -56,7 +57,7 @@ class Mage_Customer_Model_Entity_Address_Attribute_Source_Country
      *
      * @return array
      */
-    public function getAllOptions()
+    public function getAllOptions($withEmpty = true, $defaultValues = false)
     {
         if (!$this->_options) {
             $this->_options = $this->_factory->getResourceModel('directory/country_collection')

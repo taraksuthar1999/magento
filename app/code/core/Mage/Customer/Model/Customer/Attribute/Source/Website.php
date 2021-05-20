@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -33,25 +34,25 @@
  */
 class Mage_Customer_Model_Customer_Attribute_Source_Website extends Mage_Eav_Model_Entity_Attribute_Source_Table
 {
-    public function getAllOptions()
-    {
-        if (!$this->_options) {
-            $this->_options = Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true, true);
-        }
-
-        return $this->_options;
+  public function getAllOptions($withEmpty = true, $defaultValues = false)
+  {
+    if (!$this->_options) {
+      $this->_options = Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true, true);
     }
 
-    public function getOptionText($value)
-    {
-        if (!$this->_options) {
-          $this->_options = $this->getAllOptions();
-        }
-        foreach ($this->_options as $option) {
-          if ($option['value'] == $value) {
-            return $option['label'];
-          }
-        }
-        return false;
+    return $this->_options;
+  }
+
+  public function getOptionText($value)
+  {
+    if (!$this->_options) {
+      $this->_options = $this->getAllOptions();
     }
+    foreach ($this->_options as $option) {
+      if ($option['value'] == $value) {
+        return $option['label'];
+      }
+    }
+    return false;
+  }
 }

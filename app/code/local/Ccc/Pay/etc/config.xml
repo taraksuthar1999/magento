@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Ccc_Pay>
+            <version>0.0.1</version>
+        </Ccc_Pay>
+    </modules>
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <pay>
+                            <title>Payment Module</title>
+                        </pay>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <global>
+        <helpers>
+            <pay>
+                <class>Ccc_Pay_Helper</class>
+            </pay>
+        </helpers>
+        <models>
+            <pay>
+                <class>Ccc_Pay_Model</class>
+            </pay>
+        </models>
+    </global>
+    <default>
+        <payment>
+            <pay>
+                <active>1</active>
+                <model>pay/pay</model>
+                <order_status>processing</order_status>
+                <title>COD Payment Method</title>
+            </pay>
+        </payment>
+    </default>
+</config>

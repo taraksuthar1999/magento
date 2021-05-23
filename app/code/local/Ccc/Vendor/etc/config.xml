@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Ccc_Vendor>
-			<version>1.0.1</version>
+			<version>1.0.3</version>
 		</Ccc_Vendor>
 	</modules>
 	<frontend>
@@ -58,6 +58,51 @@
 					</eav_attribute>
 				</entities>
 			</vendor_resource>
+			<product>
+				<class>Ccc_Vendor_Model</class>
+				<resourceModel>product_resource</resourceModel>
+			</product>
+			<product_resource>
+				<class>Ccc_Vendor_Model_Resource</class>
+				<entities>
+					<product>
+						<table>product</table>
+					</product>
+					<product_datetime>
+						<table>product_datetime</table>
+					</product_datetime>
+					<product_decimal>
+						<table>product_decimal</table>
+					</product_decimal>
+					<product_int>
+						<table>product_int</table>
+					</product_int>
+					<product_text>
+						<table>product_text</table>
+					</product_text>
+					<product_varchar>
+						<table>product_varchar</table>
+					</product_varchar>
+					<product_char>
+						<table>product_char</table>
+					</product_char>
+					<eav_attribute>
+						<table>product_eav_attribute</table>
+					</eav_attribute>
+				</entities>
+			</product_resource>
+			<request>
+				<class>Ccc_Vendor_Model</class>
+				<resourceModel>request_resource</resourceModel>
+			</request>
+			<request_resource>
+				<class>Ccc_Vendor_Model_Resource</class>
+				<entities>
+					<request>
+						<table>product_request</table>
+					</request>
+				</entities>
+			</request_resource>
 		</models>
 		<resources>
 			<vendor_setup>

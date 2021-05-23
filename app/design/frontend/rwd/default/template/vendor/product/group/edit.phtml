@@ -1,0 +1,34 @@
+<?php $group = mage::registry('entity_attribute_group'); //$this->getAttribute()->getData(); //echo '<pre>';  print_r() 
+$mod = Mage::getResourceModel('vendor/product');
+$attributeSetId = $mod->getEntityType()->getDefaultAttributeSetId();
+
+
+?>
+
+<div class="attribute">
+    <div class="page-title">
+        <h1><?php echo $this->__('Product Group') ?></h1>
+    </div>
+    <form action="<?php echo mage::getUrl('vendor/group/save', ['attribute_set_id' => $attributeSetId]); ?>" method="post" id="form-validate">
+        <div class="fieldset">
+            <h2 class="legend"><?php echo $this->__('Group Information') ?></h2>
+            <ul class="form-list">
+                <li class="fields">
+                    <label for="frontend_label" class="required"><em>*</em><?php echo $this->__('Group Name') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="attribute_group_name" id="frontend_label" title="<?php echo $this->quoteEscape($this->__('Group Name')) ?>" class="input-text required-entry" value="<?php echo $group['attribute_group_name'] ?>" />
+                    </div>
+                </li>
+
+            </ul><br>
+
+        </div>
+        <br />
+
+        <div class="buttons-set">
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+            <button type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Submit')) ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+        </div>
+    </form>
+</div>

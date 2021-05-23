@@ -4,7 +4,7 @@ class Ccc_Vendor_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
 {
     public function getDefaultEntities()
     {
-        /* $entityAttributes = array(
+        $entityAttributes = array(
             'product'                => array(
                 'entity_model'                   => 'vendor/product',
                 'attribute_model'                => 'vendor/attribute',
@@ -484,6 +484,6 @@ class Ccc_Vendor_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             )
         );
 
-        return $entityAttributes;*/
+        return $entityAttributes;
     }
 }

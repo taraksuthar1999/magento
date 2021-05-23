@@ -1,0 +1,30 @@
+<h1>helloo</h1>
+<?php $collection = Mage::getResourceModel('vendor/product_attribute_collection')->getData();
+
+
+
+?>
+
+<a href="<?php echo Mage::getUrl('vendor/attribute/new'); ?>">Add Attribute</a>
+<table border="1em">
+    <tr>
+        <th>Attribute Code</th>
+        <th>Attribute Label</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <?php foreach ($collection as $key => $data) : ?>
+
+            <td><?php echo $data['attribute_code']
+                ?></td>
+            <td><?php echo $data['frontend_label']
+                ?></td>
+            <td><a href="<?php echo Mage::getUrl('vendor/attribute/edit', ['attribute_id' => $data['attribute_id']]) ?>">edit</a></td>
+            <td><a href="">Delete</a></td>
+    </tr>
+        <?php endforeach; ?>
+
+
+
+</table>

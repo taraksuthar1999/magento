@@ -25,6 +25,11 @@
 					<title>Manage Vendor Product</title>
 					<sort_order>100</sort_order>
 					<children>
+						<vendor_product>
+							<title>Manage Product</title>
+							<sort_order>99</sort_order>
+							<action>*/vendor_product</action>
+						</vendor_product>
 						<vendor_product_attribute>
 							<title>Manage Attribute</title>
 							<sort_order>100</sort_order>

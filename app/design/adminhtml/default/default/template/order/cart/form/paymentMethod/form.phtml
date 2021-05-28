@@ -1,0 +1,11 @@
+<?php $methods = $this->getPayemntMethodTitle(); ?>
+<?php $paymentCode = $this->getPaymentCode(); ?>
+
+<div class="entry-edit">
+    <span class="nowrap">
+        <?php foreach ($methods as $key => $value) : ?>
+            <input type="radio" value="<?php echo $key ?>" <?php if($key == $paymentCode): ?> checked <?php endif; ?> required name="paymentMethod">
+            <?php echo $value->getTitle(); ?><br>
+        <?php endforeach; ?>
+    </span>
+</div>

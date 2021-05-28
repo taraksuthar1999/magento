@@ -1,0 +1,24 @@
+<?php $methods = $this->getShippingMethods() ?>
+<fieldset class="np">
+    <div class="edit-form" id="order-shipping_address_fields">
+        <div class="content">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list">
+                    <?php foreach ($methods as $key => $value) : ?>
+                        <tbody>
+                            <tr>
+                                <td><input type="radio" name="shipingMethod" id="<?php echo $key ?>" value="<?php echo $key ?>">
+                                    <label for="<?php echo $key ?>"><?php echo $key ?></label><br>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="save">
+        <button class="button" onclick="mage.formSubmit()">Save Shipping Method</button>
+    </div>
+</fieldset>

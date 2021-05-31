@@ -1,0 +1,36 @@
+<?php $collection = $this->getAttributeGroups(); ?>
+<div class="group">
+    <div class="page-title">
+        <h1><?php echo $this->__('Product Group') ?></h1>
+    </div>
+    <div class="buttons-set">
+        <a href="<?php echo Mage::getUrl('vendor/group/new'); ?>" class="button"><span><span><?php echo $this->__('Add Group') ?></span></span></a>
+    </div>
+    <div class="fieldset">
+        <table border="1em">
+            <tr>
+                <th>Group Name</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <?php foreach ($collection as $data) : ?>
+
+                    <td><?php echo $data['attribute_group_name']
+                        ?></td>
+                    <td><a href="<?php echo Mage::getUrl('vendor/group/edit', ['attribute_group_id' => $data['attribute_group_id']]) ?>">edit</a></td>
+                    <td><a href="">Delete</a></td>
+            </tr>
+        <?php endforeach; ?>
+
+
+
+        </table>
+    </div>
+    <br />
+
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+
+    </div>
+</div>

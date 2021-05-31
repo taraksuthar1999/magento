@@ -1,0 +1,256 @@
+<?php $attribute = mage::registry('entity_attribute'); //$this->getAttribute()->getData(); //echo '<pre>';  print_r() 
+
+?>
+<?php  ?>
+<?php $groups = $this->getAttributeGroups();
+//$this->getAttributeGroups() 
+?>
+
+<div class="attribute">
+    <div class="page-title">
+        <h1><?php echo $this->__('Product Attribute') ?></h1>
+    </div>
+    <form action="<?php echo Mage::getUrl('vendor/attribute/save', ['attribute_id' => $attribute['attribute_id']]); ?>" method="post" id="form-validate">
+        <div class="fieldset">
+            <h2 class="legend"><?php echo $this->__('Attribute Information') ?></h2>
+            <ul class="form-list">
+                <li class="fields">
+                    <label for="frontend_label" class="required"><em>*</em><?php echo $this->__('Attribute Code') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="attribute_code" id="frontend_label" title="<?php echo $this->quoteEscape($this->__('Attribute Code')) ?>" class="input-text required-entry" value="<?php echo $attribute['frontend_label'] ?>" />
+                    </div>
+                </li>
+                <li class="fields">
+                    <label for="frontend_label" class="required"><em>*</em><?php echo $this->__('Frontend Label') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="frontend_label" id="frontend_label" title="<?php echo $this->quoteEscape($this->__('Frontend Label')) ?>" class="input-text required-entry" value="<?php echo $attribute['frontend_label'] ?>" />
+                    </div>
+                </li>
+                <li class="fields">
+                    <label for="frontend_input" class="required"><em>*</em><?php echo $this->__('Frontend Input') ?></label>
+                    <div class="input-box">
+                        <select name="frontend_input" id="frontend_input" onchange="option()">
+                            <option value="text" <?php if ($attribute['frontend_input'] == "text") echo 'selected'; ?>>Text Field</option>
+                            <option value="textarea" <?php if ($attribute['frontend_input'] == "textarea") echo 'selected'; ?>>Text Area</option>
+                            <option value="date" <?php if ($attribute['frontend_input'] == "date") echo 'selected'; ?>>Date</option>
+                            <option value="boolean" <?php if ($attribute['frontend_input'] == "boolean") echo 'selected'; ?>>Yes/No</option>
+                            <option value="multiselect" <?php if ($attribute['frontend_input'] == "multiselect") echo 'selected'; ?>>Multiple Select</option>
+                            <option value="select" <?php if ($attribute['frontend_input'] == "select") echo 'selected'; ?>>Dropdown</option>
+                            <option value="price" <?php if ($attribute['frontend_input'] == "price") echo 'selected'; ?>>Price</option>
+                            <option value="media_image" <?php if ($attribute['frontend_input'] == "media_image") echo 'selected'; ?>>Media Image</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="control">
+                    <input type="checkbox" name="select_group" id="select_group" value="1" onclick="group()" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Select Group')) ?>" class="checkbox" /><label for="select_group"><?php echo $this->__('Select Group') ?></label>
+                </li>
+            </ul><br>
+            <div id="group" style="display: none;">
+                <div class="input-box">
+                    <select name="attribute_group_id" id="attribute_group_id" style="width: 55%;">
+                        <?php foreach ($groups as $group) : ?>
+                            <option value="<?= $group['attribute_group_id'] ?>"><?= $group['attribute_group_name'] ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div style="display:none" id="option">
+            <div class="entity-edit" id="matage-options-panel">
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('vendor')->__('Manage Options (values of your attribute)') ?></h4>
+                </div>
+                <div class="box">
+                    <div class="hor-scroll">
+                        <table class="dynamic-grid" cellspacing="0" cellpadding="0">
+                            <tr id="attribute-options-table">
+                                <?php foreach ($this->getStores() as $_store) : ?>
+                                    <th><?php echo $this->escapeHtml($_store->getName()); ?></th>
+                                <?php endforeach; ?>
+                                <th><?php echo Mage::helper('vendor')->__('Position') ?></th>
+                                <th class="nobr a-center"><?php echo Mage::helper('vendor')->__('Is Default') ?></th>
+                                <th>
+                                    <?php if (!$this->getReadOnly()) : ?>
+                                        <?php //echo $this->getAddNewButtonHtml() 
+                                        ?>
+                                        <button id="add_new_option_button" title="Add Option" type="button" class="scalable add" onclick="" style=""><span><span><span>Add Option</span></span></span></button>
+
+                                    <?php endif; ?>
+                                </th>
+                            </tr>
+                            <tr class="no-display template" id="row-template">
+                                <?php foreach ($this->getStores() as $_store) : ?>
+                                    <td><input name="option[value][{{id}}][<?php echo $_store->getId() ?>]" value="{{store<?php echo $_store->getId() ?>}}" class="input-text<?php if ($_store->getId() == 0) : ?> required-option<?php endif; ?>" type="text" <?php if ($this->getReadOnly()) : ?> disabled="disabled" <?php endif; ?> /></td>
+                                <?php endforeach; ?>
+                                <td class="a-center"><input class="input-text" type="text" name="option[order][{{id}}]" value="{{sort_order}}" <?php if ($this->getReadOnly()) : ?> disabled="disabled" <?php endif; ?> /></td>
+                                <td><input class="input-radio" type="radio" name="default[]" value="{{id}}" <?php if ($this->getReadOnly()) : ?> disabled="disabled" <?php endif; ?> /></td>
+                                <td class="a-left">
+                                    <input type="hidden" class="delete-flag" name="option[delete][{{id}}]" value="" />
+                                    <?php //if (!$this->getReadOnly()) : 
+                                    ?>
+                                    <?php //echo $this->getDeleteButtonHtml() 
+                                    ?>
+                                    <button id="" title="Delete" type="button" class="scalable delete delete-option" onclick="" style=""><span><span><span>Delete</span></span></span></button>
+                                    <?php //endif; 
+                                    ?>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <input type="hidden" id="option-count-check" value="" />
+                </div>
+            </div>
+        </div>
+        <div class="buttons-set">
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+            <button type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Submit')) ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    function option() {
+        var type = document.getElementById('frontend_input').value;
+        if (type == 'select' || type == 'multiselect') {
+            var sty = document.getElementById('option');
+            sty.style['display'] = 'block';
+        } else {
+            sty.style['display'] = 'none';
+        }
+    }
+
+    function group() {
+        var checkbox = document.getElementById('select_group');
+        var dropdown = document.getElementById('group');
+        if (checkbox.checked == true) {
+            dropdown.style['display'] = 'block';
+        } else {
+            dropdown.style['display'] = 'none';
+        }
+    }
+</script>
+
+<!--options.phtml-->
+
+<script type="text/javascript">
+    //<![CDATA[
+    var optionDefaultInputType = 'radio';
+
+    // IE removes quotes from element.innerHTML whenever it thinks they're not needed, which breaks html.
+    var templateText =
+        '<tr class="option-row">' +
+        <?php foreach ($this->getStores() as $_store) : ?> '<td><input name="option[value][{{id}}][<?php echo $_store->getId() ?>]" value="{{store<?php echo $_store->getId() ?>}}" style="width: 500%" class="input-text<?php if ($_store->getId() == 0) : ?> required-option<?php endif; ?>" type="text" <?php if ($this->getReadOnly()) : ?> disabled="disabled"<?php endif; ?>/><\/td>' +
+        <?php endforeach; ?> '<td><input class="input-text" type="text" name="option[order][{{id}}]" value="{{sort_order}}" style="width: 500%" <?php if ($this->getReadOnly()) : ?> disabled="disabled"<?php endif; ?>/><\/td>' +
+        '<td class="a-center"><input class="input-radio" type="{{intype}}" name="default[]" value="{{id}}" {{checked}} <?php if ($this->getReadOnly()) : ?> disabled="disabled"<?php endif; ?>/><\/td>' +
+        '<td class="a-left" id="delete_button_container_{{id}}">' +
+        '<input type="hidden" class="delete-flag" name="option[delete][{{id}}]" value="" />' +
+        <?php if (!$this->getReadOnly()) : ?> '<?php //echo Mage::helper('core')->jsQuoteEscape($this->getDeleteButtonHtml()) 
+                                                ?> <button id="" title="Delete" type="button" class="scalable delete delete-option" onclick="" style=""><span><span><span>Delete</span></span></span></button>' +
+        <?php endif; ?> '<\/td>' +
+        '<\/tr>';
+
+    var attributeOption = {
+        table: $('attribute-options-table'),
+        templateSyntax: /(^|.|\r|\n)({{(\w+)}})/,
+        templateText: templateText,
+        itemCount: 0,
+        totalItems: 0,
+        isReadOnly: <?php echo (int)$this->getReadOnly(); ?>,
+        add: function(data) {
+            this.template = new Template(this.templateText, this.templateSyntax);
+            var isNewOption = false;
+            if (!data.id) {
+                data = {};
+                data.id = 'option_' + this.itemCount;
+                isNewOption = true;
+            }
+            if (!data.intype)
+                data.intype = optionDefaultInputType;
+            Element.insert(this.table, {
+                after: this.template.evaluate(data)
+            });
+            if (isNewOption && !this.isReadOnly) {
+                this.enableNewOptionDeleteButton(data.id);
+            }
+            this.bindRemoveButtons();
+            this.itemCount++;
+            this.totalItems++;
+            this.updateItemsCountField();
+        },
+        remove: function(event) {
+            var element = $(Event.findElement(event, 'tr')); // !!! Button already
+            // have table parent in safari
+            // Safari workaround
+            element.ancestors().each(function(parentItem) {
+                if (parentItem.hasClassName('option-row')) {
+                    element = parentItem;
+                    throw $break;
+                } else if (parentItem.hasClassName('box')) {
+                    throw $break;
+                }
+            });
+
+
+            if (element) {
+                var elementFlags = element.getElementsByClassName('delete-flag');
+                if (elementFlags[0]) {
+                    elementFlags[0].value = 1;
+                }
+
+                element.addClassName('no-display');
+                element.addClassName('template');
+                element.hide();
+                this.totalItems--;
+                this.updateItemsCountField();
+            }
+        },
+        updateItemsCountField: function() {
+            if (this.totalItems > 0) {
+                $('option-count-check').value = '1';
+            } else {
+                $('option-count-check').value = '';
+            }
+        },
+        enableNewOptionDeleteButton: function(id) {
+            $$('#delete_button_container_' + id + ' button').each(function(button) {
+                button.enable();
+                button.removeClassName('disabled');
+            });
+        },
+        bindRemoveButtons: function() {
+            var buttons = $$('.delete-option');
+            for (var i = 0; i < buttons.length; i++) {
+                if (!$(buttons[i]).binded) {
+                    $(buttons[i]).binded = true;
+                    Event.observe(buttons[i], 'click', this.remove.bind(this));
+                }
+            }
+        }
+
+    }
+    if ($('row-template')) {
+        $('row-template').remove();
+    }
+    attributeOption.bindRemoveButtons();
+
+    if ($('add_new_option_button')) {
+        Event.observe('add_new_option_button', 'click', attributeOption.add.bind(attributeOption));
+    }
+    Validation.addAllThese([
+        ['required-option', '<?php echo Mage::helper('core')->jsQuoteEscape(Mage::helper('catalog')->__('Failed')) ?>', function(v) {
+            return !Validation.get('IsEmpty').test(v);
+        }]
+    ]);
+    Validation.addAllThese([
+        ['required-options-count', '<?php echo Mage::helper('core')->jsQuoteEscape(Mage::helper('catalog')->__('Options is required')) ?>', function(v) {
+            return !Validation.get('IsEmpty').test(v);
+        }]
+    ]);
+    <?php foreach ($this->getOptionValues() as $_value) : ?>
+        attributeOption.add(<?php echo $_value->toJson() ?>);
+    <?php endforeach; ?>
+    //]]>
+</script>

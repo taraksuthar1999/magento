@@ -33,23 +33,21 @@
 
 <?php
 ?>
-<form action="" method="POST">
+<form action="<?php echo $this->getUrl('*/Adminhtml_Order_Cart/updateQuantity'); ?>" id="cart_form" method="POST">
     <?php echo $this->getBlockHtml('formkey'); ?>
     <div class="entry-edit">
         <div class="entry-edit-head">
             <h4 class="icon-head head-cart"><?php echo $this->getHeaderText() ?></h4>
-            <div class="form-buttons"><?php echo $this->getButtonsHtml() ?></div>
+            <div class="form-buttons"><a class="scalable save button" onclick="showAction()">ADD Product</a></div>
         </div>
 
 
         <div class="grid" id="order-items_grid">
             <table cellspacing="0" class="data order-tables">
-                <col width="100" />
-                <col width="100" />
-                <col width="100" />
-                <col width="100" />
-                <col width="100" />
-                <col width="100" />
+                <col width="25%" />
+                <col width="25%" />
+                <col width="25%" />
+                <col width="25%" />
 
                 <thead>
                     <tr class="headings">
@@ -65,20 +63,19 @@
                     <?php foreach ($items = $this->getCart()->getCartItems() as $key => $item) : ?>
                         <tr>
                             <td>
-                                <input type="text" name="name" value="<?= $item['cart_item_id'] ?>" id="">
+                                <input type="text" name="update[cart_item_id]" value="<?= $item['cart_item_id'] ?>">
                             </td>
                             <td>
-                                <input type="text" name="name" value="<?= $this->getProductName($item['product_id']) ?>" id="">
+                                <?= $this->getProductName($item['product_id']) ?>
                             </td>
                             <td>
-                                <input type="text" name="price" value="<?= $item['price'] ?>" id="">
+                                <?= $item['price'] ?>
                             </td>
                             <td>
                                 <input type="text" name="update[quantity]" value="<?= $item['quantity'] ?>" id="">
                             </td>
                             <td>
-                                <!-- <a class="submit" href="<?php //echo $this->getUrl('*/Adminhtml_Order_Cart/deleteItem', ['id' => $item['cart_id']]); 
-                                                                ?>">Delete</a> -->
+                                <button class="submit" name="delete" value="<?= $item['cart_item_id'] ?>" onclick="deleteItem()">Delete</button>
                             </td>
 
                         </tr>
@@ -96,7 +93,7 @@
                         <td class="price"><strong><?php echo $this->getCart()->getSubtotalWithDiscount();
                                                     ?></strong></td>
                         <td colspan="2">
-                            <div class="form-buttons"><?php //echo $this->getButtonHtml() 
+                            <div class="form-buttons"><?php echo $this->getButtonHtml()
                                                         ?></div>
                         </td>
                     </tr>

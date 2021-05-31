@@ -1,0 +1,47 @@
+<?php
+$collection = $this->getCollection();
+// echo '<pre>';
+// print_r($collection = $this->getCollection());
+// die();
+// $collection = Mage::getResourceModel('vendor/product_collection')->getData();
+// print_r($collection);
+?>
+<div class="product">
+    <div class="page-title">
+        <h1><?php echo $this->__('Manage Product') ?></h1>
+    </div>
+    <div class="buttons-set">
+        <a href="<?php echo Mage::getUrl('vendor/product/new'); ?>" class="button"><span><span><?php echo $this->__('Add Product') ?></span></span></a>
+    </div>
+</div>
+<div class="product">
+    <table border="1em">
+        <tr>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>Weight</th>
+            <th>Price</th>
+
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <?php foreach ($collection as $key => $data) : ?>
+
+                <td><?php echo $data['name']
+                    ?></td>
+                <td><?php echo $data['sku']
+                    ?></td>
+                <td><?php echo $data['weight']
+                    ?></td>
+                <td><?php echo $data['price']
+                    ?></td>
+                <td><a href="<?php echo Mage::getUrl('vendor/product/edit', ['id' => $data['entity_id']]) ?>">edit</a></td>
+                <td><a href="">Delete</a></td>
+        </tr>
+    <?php endforeach; ?>
+
+
+
+    </table>
+</div>

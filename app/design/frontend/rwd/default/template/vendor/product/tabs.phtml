@@ -1,0 +1,9 @@
+<?php //echo '<pre>';
+$tabs = $this->getTabs();
+?>
+<div class="buttons-set">
+    <?php foreach ($tabs as $tab => $data) : ?>
+        <button class="tablinks" onclick="openCity(event, '<?php echo $data['attribute_group_id'] ?>')"><span><span><?php echo $this->__("{$tab}") ?></span></span></button>
+        <br><br>
+    <?php endforeach; ?>
+</div>

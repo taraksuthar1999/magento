@@ -1,0 +1,84 @@
+<?php
+// echo '<pre>';
+// print_r($this->getAttributes());
+// print_r($optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+//     ->setAttributeFilter(191)
+//     ->setPositionOrder('desc', true)
+//     ->load()
+//     ->getData());
+// die();
+// print_r($this->getOptionValues(191)->getData());
+?>
+<?php $groups = $this->getGroups(); //echo '<pre>'; print_r($this->getAttributes())
+?>
+<?php $attributes = $this->getAttributes(); //echo '<pre>'; print_r($this->getProduct()->getData()); 
+?>
+<?php $product = mage::registry('current_product');
+
+$product->getData();
+
+?>
+
+<h2 class="legend"><?php echo $this->__('Attribute Information') ?></h2>
+<form action="<?php echo Mage::getUrl('vendor/product/save',['id'=>$product['entity_id']]); ?>" method="post" enctype="multipart/form-data" id="form-validate">
+    <button type="submit" class="button">submit</button>
+    <?php foreach ($groups as $group) : ?>
+        <div class="tabcontent" id="<?php echo $group['attribute_group_id'] ?>" <?php if ($group['attribute_group_name'] != 'General') : ?> style="display: none;" <?php endif ?> class="tabcontent">
+            <?php foreach ($attributes[$group['attribute_group_id']] as $attribute) : ?>
+                <?php if ($attribute['frontend_label'] && ($attribute['frontend_label'] != 'Small Image Label') && ($attribute['frontend_label'] != 'VendorId') && ($attribute['frontend_label'] != 'Image Label') && ($attribute['frontend_label'] != 'Request Id') && ($attribute['frontend_label'] != 'Request Type') && ($attribute['frontend_label'] != 'Thumbnail Label')) : ?>
+                    <div class="fieldset">
+                        <ul class="form-list">
+                            <li class="fields">
+                                <label for="<?= $attribute['attribute_code'] ?>" <?php if ($attribute['is_required']) : ?> class="required" <?php endif ?>> <?php if ($attribute['is_required']) : ?> <em>*</em> <?php endif ?><?php echo $this->__($attribute['frontend_label']) ?></label>
+                                <div class="input-box">
+                                    <?php if ($attribute['frontend_input'] == 'multiselect' || $attribute['frontend_input'] == 'select' || $attribute['frontend_input'] == 'boolean') : ?>
+                                        <select <?php if ($attribute['frontend_input'] == 'multiselect') : ?> name="product[<?= $attribute['attribute_code'] ?>][]" <?php else : ?> name="product[<?= $attribute['attribute_code'] ?>]" <?php endif ?> id="<?= $attribute['attribute_code'] ?>" <?php if ($attribute['frontend_input'] == 'multiselect') : ?> multiple <?php endif ?><?php if ($attribute['is_required']) : ?> required <?php endif ?>>
+                                            <?php foreach ($this->getOptionValues($attribute['attribute_id'])->getData() as $option) :
+                                            ?>
+                                                <?php print_r($attribute['attribute_id']); ?>
+                                                <option value="<?= $option['option_id'] ?>"><?= $option['value'] ?></option>
+                                            <?php endforeach
+                                            ?>
+                                        </select>
+                                    <?php endif; ?>
+                                    <?php if ($attribute['frontend_input'] == 'text' || $attribute['frontend_input'] == 'date' || $attribute['frontend_input'] == 'price') : ?>
+                                        <input type="<?= $attribute['frontend_input'] ?>" name="product[<?= $attribute['attribute_code'] ?>]" id="<?= $attribute['attribute_code'] ?>" title="<?php echo $this->quoteEscape($this->__($attribute['frontend_label'])) ?>" class="input-text required-entry" value="<?php echo $product[$attribute['attribute_code']] ?>" <?php if ($attribute['is_required']) : ?> required <?php endif ?> />
+                                    <?php endif ?>
+                                    <?php if ($attribute['frontend_input'] == 'textarea') : ?>
+                                        <textarea name="product[<?= $attribute['attribute_code'] ?>]" id="product[<?= $attribute['attribute_code'] ?>]" cols="2" rows="5" <?php if ($attribute['is_required']) : ?> required <?php endif ?>><?php echo $product[$attribute['attribute_code']] ?></textarea>
+                                    <?php endif ?>
+                                    <?php if ($attribute['frontend_input'] == 'media_image' || $attribute['frontend_input'] == 'gallery' || $attribute['frontend_input'] == 'weight') : ?>
+                                        <input type="text" name="product[<?= $attribute['attribute_code'] ?>]" value="<?php echo $product[$attribute['attribute_code']] ?>" id="product[<?= $attribute['attribute_code'] ?>]" <?php if ($attribute['is_required']) : ?> required <?php endif ?>>
+                                    <?php endif ?>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                <?php endif ?>
+            <?php endforeach ?>
+        </div>
+    <?php endforeach ?>
+    <div class="buttons-set">
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Submit')) ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+    </div>
+</form>
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>

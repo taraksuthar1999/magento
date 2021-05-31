@@ -1,0 +1,52 @@
+<form action="">
+    <table cellspacing="0" width="100%">
+        <tbody>
+            <tr>
+                <td class="side-col" style="background:none; padding:0;">
+                    <div id="order-sidebar">
+
+                    </div>
+                </td>
+                <td class="main-col">
+                    <div id="order-search">
+                        <?php echo $this->getChildHtml('search') ?>
+
+                    </div>
+                    <div id="order-items">
+                        <?php echo $this->getChildHtml('items') ?>
+                    </div>
+                    <div id="order-errors"></div>
+                    <div id="order-form_account">
+
+                    </div>
+                    <div id="order-addresses">
+                        <div id="order-billing_address" class="box-left">
+                            <?php echo $this->getChildHtml('shipping_address') ?>
+                        </div>
+                        <div id="order-shipping_address" class="box-right">
+                            <?php echo $this->getChildHtml('billing_address') ?>
+
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div id="order-methods">
+                        <div id="order-billing_method" class="box-left payments">
+                            <?php echo $this->getChildHtml('billing_method') ?>
+
+                        </div>
+                        <div id="order-shipping_method" class="box-right">
+                            <?php echo $this->getChildHtml('shipping_method') ?>
+
+                        </div>
+                    </div>
+
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+
+
+

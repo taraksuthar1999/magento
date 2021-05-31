@@ -1,0 +1,39 @@
+<form action="<?php echo $this->getUrl('*/Adminhtml_Order_Cart/placeOrder'); ?>" method="POST">
+    <?php echo $this->getBlockHtml('formkey'); ?>
+    <div class="box-right entry-edit">
+        <div class="entry-edit-head">
+            <h4>Order Totals</h4>
+        </div>
+        <div id="order-totals" class="order-totals">
+            <table cellspacing="0" cellpadding="8" width="100%">
+                <tbody>
+                    <tr>
+                        <td class="a-right" colspan="1">Subtotal</td>
+                        <td class="a-right"><span class="price">$ <?php echo $this->getCart()->getSubtotalWithDiscount();
+                                                                    ?></span></td>
+                    </tr>
+                    <tr>
+                        <td class="a-right" colspan="1">Shipping</td>
+                        <td class="a-right"><span class="price">$ <?php echo $this->getCart()->getShippingAmount();
+                                                                    ?></span></td>
+                    </tr>
+                    <tr>
+                        <td class="a-right" colspan="1">
+                            <strong>Grand Total</strong>
+                        </td>
+                        <td class="a-right">
+                            <strong><span class="price">$ <?php echo ($this->getCart()->getSubtotalWithDiscount() + $this->getCart()->getShippingAmount());
+                                                            ?></span></strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="divider"></div>
+            <div class="order-totals-bottom">
+                <p> <button type="submit" class="scalable save">
+                        <span><span><span>Submit Order</span></span></span>
+                    </button></p>
+            </div>
+        </div>
+    </div>
+</form>

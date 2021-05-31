@@ -133,7 +133,7 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
     {
         $products = $this->getRequest()->getPost('massaction');
         $customerId = Mage::getSingleton('core/session')->getCustomerId();
-        $cartId = Mage::getModel('order/cart')->load($customerId, 'customer_id')->getId();
+        $cartId = $this->newCartAction()->getId();
         foreach ($products as $key => $productId) {
             $product = Mage::getModel('catalog/product')->getCollection();
 
@@ -283,7 +283,7 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
     }
     public function deleteItemAction()
     {
-        $id = (int)$this->getRequest()->getParam('id');
+        $id = (int)$this->getRequest()->getPost('delete');
         try {
             $model = Mage::getModel('order/cart_item');
             if (!$model->load($id)) {
@@ -297,5 +297,27 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
         }
         Mage::getSingleton('adminhtml/session')->addSuccess('Product is Deleted Successfully');
         $this->_redirect('*/*/index');
+    }
+    public function updateQuantityAction()
+    {
+        try {
+
+            if (!$quantity = $this->getRequest()->getPost('update')) {
+                throw new Exception('invalid request');
+            }
+
+
+
+            $cartItemId = $quantity['cart_item_id'];
+            $quantity = $quantity['quantity'];
+            $cartItem = Mage::getModel('order/cart_item')->load($cartItemId);
+            $cartItem->setQuantity($quantity);
+            $cartItem->save();
+            Mage::getSingleton('adminhtml/session')->addSuccess('Product is Deleted Successfully');
+            $this->_redirect('*/*/index');
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            $this->_redirect('*/*/');
+        }
     }
 }

@@ -50,6 +50,12 @@ echo $address->_toHtml() */ ?>
     </div>
 </form>
 <script>
+    function deleteItem() {
+        var form = document.getElementById('cart_form');
+        form.setAttribute('action', "<?php echo $this->getUrl('*/*/deleteItem') ?>")
+        form.submit();
+    }
+
     function showAction() {
         var grid = document.getElementById('product_grid');
         grid.style.display = '';

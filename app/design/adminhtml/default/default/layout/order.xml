@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<layout>
+    <order_adminhtml_order_index>
+        <reference name="content">
+            <block type="order/adminhtml_order" name="order"></block>
+        </reference>
+    </order_adminhtml_order_index>
+    <order_adminhtml_order_cart_index>
+
+        <reference name="js">
+            <block type="adminhtml/template" template="order/cart/js1.phtml" name="create1" />
+        </reference>
+        <reference name="content">
+            <block type="order/adminhtml_order_cart" name="order_cart" template="order/cart2.phtml">
+                <block type="order/adminhtml_order_cart_shipping_address" template="order/cart/form/shippingAddress.phtml" name="shipping_address" />
+                <block type="order/adminhtml_order_cart_billing_address" template="order/cart/form/billingAddress.phtml" name="billing_address" />
+                <block type="order/adminhtml_order_cart_items_grid" template="order/cart/items/grid.phtml" name="items_grid"></block>
+                <block type="order/adminhtml_order_cart_search" template="order/cart/abstract.phtml" name="search">
+                    <block type="order/adminhtml_order_cart_search_grid" name="grid" />
+                </block>
+                <block type="order/adminhtml_order_cart_shipping_method" template="order/cart/shipping/method.phtml" name="shipping_method"/>
+                <block type="order/adminhtml_order_cart_billing_method" template="order/cart/billing/method.phtml" name="billing_method"/>
+                <block type="order/adminhtml_order_cart_total" template="order/cart/total.phtml" name="total"></block>
+
+                <block type="core/text_list" name="order_item_extra_info"></block>
+
+            </block>
+        </reference>
+    </order_adminhtml_order_cart_index>
+</layout>

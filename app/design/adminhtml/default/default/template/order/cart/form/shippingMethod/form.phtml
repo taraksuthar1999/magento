@@ -1,0 +1,15 @@
+<?php $shippingMethodTitle = $this->getShippingMethodTitle(); ?>
+<?php $shippingCode = $this->getShippingCode(); ?>
+<?php 
+/* echo "<pre>";
+print_r() */
+?>
+<div class="entry-edit">
+    <span class="nowrap">
+        <?php foreach ($shippingMethodTitle as $key => $value) : ?> 
+            <?php if($value->getconfigData('price')){$data = $value->getconfigData('price');} else{ $data = 0.00; } ?>
+            <input type="radio" name="shippingMethod" <?php if($key == $shippingCode): ?> checked <?php endif; ?> value="<?php echo $key.' '.$data; ?>" required>
+            <?php echo $value->getconfigData('title'). ' '; ?><strong>$<?php if($value->getconfigData('price')){echo $value->getconfigData('price');} else{ echo "0.00"; }?></strong><br>
+        <?php endforeach; ?>
+    </span>
+</div>

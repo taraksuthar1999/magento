@@ -50,6 +50,9 @@ extends Mage_Adminhtml_Block_Template
 
         if (!$address->getId()) {
             $customerBilling = $this->getCart()->getCustomer()->getDefaultBillingAddress();
+            if (!$customerBilling) {
+                return mage::getModel('customer/address');
+            }
             $street = $customerBilling->getStreet();
             $customerBilling->setStreet($street[0]);
             return $customerBilling;

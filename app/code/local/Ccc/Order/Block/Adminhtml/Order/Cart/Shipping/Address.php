@@ -35,6 +35,9 @@ extends Mage_Adminhtml_Block_Template
         }
 
         $shippingAddress = $cart->getCustomer()->getDefaultShippingAddress();
+        if (!$shippingAddress) {
+            return mage::getModel('customer/address');
+        }
         return $shippingAddress;
     }
     // public function getCustomerShippingAddress()

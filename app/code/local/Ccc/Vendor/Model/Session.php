@@ -118,4 +118,22 @@ class Ccc_Vendor_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->setVendor($vendor);
         return $this->_vendor;
     }
+
+    public function logout()
+    {
+        if ($this->isLoggedIn()) {
+            Mage::dispatchEvent('vendor_logout', array('vendor' => $this->getVendor()));
+            $this->_logout();
+        }
+        return $this;
+    }
+
+    protected function _logout()
+    {
+        $this->setId(null);
+        $this->setVendorGroupId(0);
+        $this->getCookie()->delete($this->getSessionName());
+        Mage::getSingleton('core/session')->renewFormKey();
+        return $this;
+    }
 }

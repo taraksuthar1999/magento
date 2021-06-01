@@ -138,13 +138,22 @@ class Ccc_Vendor_AccountController extends Mage_Core_Controller_Front_Action
             $vendor->setData($data);
             // echo 1;
             // die();
+            // print_r($email = $vendor->getEmail());
+            // $vendorModel = Mage::getModel('vendor/vendor')->getCollection();
+            // $vendorModel->addFieldToFilter('email', $email);
+            // $vendorModel->addFieldToFilter('entity_id', $vendor->getID());
+            // $vendorModel = $vendorModel->getSelect();
+
+            // print_r($vendorModel->getData());
+            // die;
+
+
             $vendor->save();
 
 
 
             $this->_dispatchRegisterSuccess($vendor);
             $this->_successProcessRegistration($vendor);
-
             return;
         } catch (Mage_Core_Exception $e) {
 
@@ -155,7 +164,7 @@ class Ccc_Vendor_AccountController extends Mage_Core_Controller_Front_Action
             } else {
                 $message = $this->_escapeHtml($e->getMessage());
             }
-            $session->addError($message);
+            // $session->addError($message);
         } catch (Exception $e) {
             $session->setVendorFormData($this->getRequest()->getPost());
             $session->addException($e, $this->__('Cannot save the vendor.'));
@@ -255,7 +264,7 @@ class Ccc_Vendor_AccountController extends Mage_Core_Controller_Front_Action
             $vendorHelper = $this->_getHelper('vendor');
             $session->addSuccess($this->__(
                 'Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%s">click here</a>.',
-                $vendorHelper->getEmailConfirmationUrl($vendor->getEmail())
+                //$vendorHelper->getEmailConfirmationUrl($vendor->getEmail())
             ));
             $url = $this->_getUrl('*/*/index', array('_secure' => true));
         } else {
@@ -431,10 +440,9 @@ class Ccc_Vendor_AccountController extends Mage_Core_Controller_Front_Action
             return $this->_redirect('*/*/edit');
         }
         if ($this->getRequest()->isPost()) {
-            echo $this->getRequest()->getPost()->getParam('id');
+            $this->getRequest()->getParam('id');
             $vendorObj = $this->_getVendor();
-            echo 'hello';
-            die();
+
             $vendorData = $this->getRequest()->getPost();
             unset($vendorData['form_key']);
             unset($vendorData['dummy']);
@@ -543,5 +551,26 @@ class Ccc_Vendor_AccountController extends Mage_Core_Controller_Front_Action
         }
 
         $this->_redirect('*/*/edit');
+    }
+    public function logoutAction()
+    {
+        $session = $this->_getSession();
+        $session->logout()->renewSession();
+
+        if (Mage::getStoreConfigFlag(Ccc_Vendor_Helper_Data::XML_PATH_VENDOR_STARTUP_REDIRECT_TO_DASHBOARD)) {
+            $session->setBeforeAuthUrl(Mage::getBaseUrl());
+        } else {
+            $session->setBeforeAuthUrl($this->_getRefererUrl());
+        }
+        $this->_redirect('*/*/logoutSuccess');
+    }
+
+    /**
+     * Logout success page
+     */
+    public function logoutSuccessAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
     }
 }

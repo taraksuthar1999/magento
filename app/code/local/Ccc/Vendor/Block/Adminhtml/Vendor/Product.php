@@ -7,5 +7,6 @@ class Ccc_Vendor_Block_Adminhtml_Vendor_Product extends Mage_Adminhtml_Block_wid
         $this->_controller = 'adminhtml_Vendor_product';
         $this->_headerText = $this->__('Product Request Grid');
         parent::__construct();
+        $this->_removeButton('add');
     }
 }

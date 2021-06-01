@@ -9,7 +9,7 @@
                 <title>login as vendor</title>
                 <prepare/>
                 <urlParams/>
-                <position>10</position>
+                <position>99</position>
             </action>
             <action method="addLink" translate="label title before_text" module="vendor">
                 <label>Register as vendor </label>
@@ -18,6 +18,16 @@
                 <prepare/>
                 <urlParams/>
                 <position>100</position>
+                <li/>
+                <a/>
+            </action>
+            <action method="addLink" translate="label title before_text" module="vendor">
+                <label>logout as vendor </label>
+                <url helper="vendor/getLogoutUrl" />
+                <title>logout as vendor</title>
+                <prepare/>
+                <urlParams/>
+                <position>101</position>
                 <li/>
                 <a/>
             </action>

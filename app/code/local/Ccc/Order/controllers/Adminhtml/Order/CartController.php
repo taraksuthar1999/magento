@@ -69,7 +69,7 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
 
         try {
             $order = $this->getRequest()->getPost('order');
-
+            $flag = 0;
             if ($order) {
 
 
@@ -88,23 +88,16 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
                         $billing->setCartId($cart->getId());
                         $billing->setAddressType('billing');
                         $billing->save();
-                        // Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Address Saved to Cart'));
+                        // Mage::getSingleton('adminhtml/session')->addSuccess11(Mage::helper('adminhtml')->__('Address Saved to Cart'));
                         // $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
                     }
-                    if ($key == 'save_in_address_book') {
-                        $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
-                        $customerAddress = Mage::getModel('customer/address')->load($cart->getCustomerId(), 'entity_id');
 
-                        $address = $cart->getBillingAddress()->getData();
-                        unset($address['cart_id']);
-                        unset($address['cart_address_id']);
-
-                        print_r($customerAddress);
-                    }
                     if ($key == 'shipping_as_billing') {
-                        $billing = $cart->getBillingAddress();
+                        if (!$billing = $cart->getBillingAddress()) {
+                            throw new Exception('please save billing address First');
+                        }
                         $data = $billing->getData();
-                        unset($data['cart_item_id)']);
+                        unset($data['cart_address_id']);
                         unset($data['address_type']);
                         $data['address_type'] = 'shipping';
                         $shipping = Mage::getModel('order/cart_address')->getCollection();
@@ -115,9 +108,11 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
                             $shipping = Mage::getModel('order/cart_adddress');
                         }
                         $shipping->addData($data);
-                        //$shipping->save();
+
+                        $shipping->save();
+                        $flag = 1;
                     }
-                    if ($key == 'shipping_address') {
+                    if ($key == 'shipping_address' && $flag == 0) {
 
                         if (!($address['firstname'] && $address['lastname'] && $address['country_id'] && $address['street'] && $address['city'] && $address['postcode'])) {
                             throw new Exception("Enter required field in shipping address.");
@@ -128,22 +123,39 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
                         $billing->setCartId($cart->getId());
                         $billing->setAddressType('shipping');
                         $billing->save();
-                        // Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Address Saved to Cart'));
-                        // $this->_redirect('*/*/index', ['id' => $cart->getCustomerId()]);
                     }
                     if ($key == 'save_in_address_book') {
-                        $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
-                        $customerAddress = Mage::getModel('customer/address')->load($cart->getCustomerId(), 'entity_id');
+                        $customer = $cart->getCustomer();
+                        if (!$billing = $cart->getBillingAddress()) {
+                            throw new Exception('save billing address First');
+                        }
+                        $data = $billing->getData();
+                        unset($data['cart_address_id']);
+                        unset($data['cart_id']);
 
-                        $address = $cart->getBillingAddress()->getData();
-                        unset($address['cart_id']);
-                        unset($address['cart_address_id']);
-
-                        print_r($customerAddress);
+                        $addressId = $customer->getResource()->getAttribute('14')->getFrontEnd()->getValue($customer);
+                        $address = Mage::getModel('customer/address')->load($addressId);
+                        $address->addData($data);
+                        $address->save();
                     }
-                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Address Saved to Cart'));
-                    $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
+                    if ($key == 'save_in_address_book_shipping') {
+                        //$this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
+                        $customer = $cart->getCustomer();
+                        if (!$shipping = $cart->getShippingAddress()) {
+                            throw new Exception('save shipping address First');
+                        }
+                        $data = $shipping->getData();
+                        unset($data['cart_address_id']);
+                        unset($data['cart_id']);
+
+                        $addressId = $customer->getResource()->getAttribute('14')->getFrontEnd()->getValue($customer);
+                        $address = Mage::getModel('customer/address')->load($addressId);
+                        $address->addData($data);
+                        $address->save();
+                    }
                 }
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Address Saved to Cart'));
+                $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
             }
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

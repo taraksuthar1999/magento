@@ -40,6 +40,24 @@ class Ccc_Order_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Widget_G
             'type' => 'datetime',
             'width' => '100px',
         ));
+        $this->addColumn('action', array(
+            'header'    => Mage::helper('sales')->__('Action'),
+            'width'     => '50px',
+            'type'      => 'action',
+            'getter'     => 'getId',
+            'actions'   => array(
+                array(
+                    'caption' => Mage::helper('sales')->__('View'),
+                    'url'     => array('base' => '*/Adminhtml_order/view'),
+                    'field'   => 'order_id',
+                    'data-column' => 'action',
+                )
+            ),
+            'filter'    => false,
+            'sortable'  => false,
+            'index'     => 'stores',
+            'is_system' => true,
+        ));
 
 
         // $this->addRssList('rss/order/new', Mage::helper('order')->__('New Order RSS'));
@@ -76,10 +94,14 @@ class Ccc_Order_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Widget_G
     public function getRowUrl($row)
     {
         if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/view')) {
-            return $this->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
+            return $this->getUrl('*/Adminhtml_Order/view', array('order_id' => $row->getId()));
         }
         return false;
     }
+    // public function getRowUrl($row)
+    // {
+    //     return $this->getUrl('*/*/view', array('id' => $row->getId()));
+    // }
 
     public function getGridUrl()
     {

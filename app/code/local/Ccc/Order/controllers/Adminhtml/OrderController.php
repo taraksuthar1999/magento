@@ -122,4 +122,8 @@ class Ccc_Order_Adminhtml_OrderController extends Mage_Adminhtml_Controller_Acti
         $this->_addContent($this->getLayout()->createBlock('order/adminhtml_order_create_grid'));
         $this->renderLayout();
     }
+    public function viewAction()
+    {
+        echo 111;
+    }
 }

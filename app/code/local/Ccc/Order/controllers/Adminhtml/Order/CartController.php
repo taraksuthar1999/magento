@@ -69,10 +69,13 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
 
         try {
             $order = $this->getRequest()->getPost('order');
+
             if ($order) {
+
 
                 $cart = $this->newCartAction();
                 foreach ($order as $key => $address) {
+
                     if ($key == 'billing_address') {
 
                         if (!($address['firstname'] && $address['lastname'] && $address['country_id'] && $address['street'] && $address['city'] && $address['postcode'])) {
@@ -85,8 +88,8 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
                         $billing->setCartId($cart->getId());
                         $billing->setAddressType('billing');
                         $billing->save();
-                        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Address Saved to Cart'));
-                        $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
+                        // Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Address Saved to Cart'));
+                        // $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
                     }
                     if ($key == 'save_in_address_book') {
                         $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
@@ -97,6 +100,22 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
                         unset($address['cart_address_id']);
 
                         print_r($customerAddress);
+                    }
+                    if ($key == 'shipping_as_billing') {
+                        $billing = $cart->getBillingAddress();
+                        $data = $billing->getData();
+                        unset($data['cart_item_id)']);
+                        unset($data['address_type']);
+                        $data['address_type'] = 'shipping';
+                        $shipping = Mage::getModel('order/cart_address')->getCollection();
+                        $shipping->addFieldToFilter('cart_id', $cart->getId());
+                        $shipping->addFieldToFilter('address_type', 'shipping');
+                        $shipping = $shipping->getFirstItem();
+                        if (!$shipping) {
+                            $shipping = Mage::getModel('order/cart_adddress');
+                        }
+                        $shipping->addData($data);
+                        //$shipping->save();
                     }
                     if ($key == 'shipping_address') {
 
@@ -109,8 +128,8 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
                         $billing->setCartId($cart->getId());
                         $billing->setAddressType('shipping');
                         $billing->save();
-                        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Address Saved to Cart'));
-                        $this->_redirect('*/*/index', ['id' => $cart->getCustomerId()]);
+                        // Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Address Saved to Cart'));
+                        // $this->_redirect('*/*/index', ['id' => $cart->getCustomerId()]);
                     }
                     if ($key == 'save_in_address_book') {
                         $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
@@ -122,6 +141,8 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
 
                         print_r($customerAddress);
                     }
+                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Address Saved to Cart'));
+                    $this->_redirect('*/*/', ['id' => $cart->getCustomerId()]);
                 }
             }
         } catch (Exception $e) {

@@ -41,7 +41,8 @@ class Ccc_Order_Block_Adminhtml_Order_Cart_Search_Grid extends Mage_Adminhtml_Bl
         $this->setId('sales_order_create_search_grid');
 
         $this->setDefaultSort('entity_id');
-        $this->setUseAjax(true);
+        $this->setSaveParametersInSession(true);
+        //$this->setUseAjax(true);
     }
 
     /**
@@ -158,7 +159,7 @@ class Ccc_Order_Block_Adminhtml_Order_Cart_Search_Grid extends Mage_Adminhtml_Bl
     }
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/loadBlock', array('block' => 'search_grid', '_current' => true, 'collapse' => null));
+        return $this->getUrl('*/*/index', array('block' => 'grid', '_current' => true, 'collapse' => null));
     }
 
     protected function _getSelectedProducts()

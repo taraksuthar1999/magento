@@ -42,7 +42,7 @@ class Ccc_Order_Block_Adminhtml_Order_Cart_Search_Grid extends Mage_Adminhtml_Bl
 
         $this->setDefaultSort('entity_id');
         $this->setSaveParametersInSession(true);
-        //$this->setUseAjax(true);
+        // $this->setUseAjax(true);
     }
 
     /**
@@ -139,7 +139,7 @@ class Ccc_Order_Block_Adminhtml_Order_Cart_Search_Grid extends Mage_Adminhtml_Bl
             'type'      => 'input',
             'index'     => 'price',
         ));
-        
+
 
 
 
@@ -190,4 +190,8 @@ class Ccc_Order_Block_Adminhtml_Order_Cart_Search_Grid extends Mage_Adminhtml_Bl
         $this->getCollection()->addOptionsToResult();
         return parent::_afterLoadCollection();
     }
+    // public function getGridUrl()
+    // {
+    //     return $this->getUrl('*/*/grid');
+    // }
 }

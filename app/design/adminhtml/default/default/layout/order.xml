@@ -27,4 +27,9 @@
             </block>
         </reference>
     </order_adminhtml_order_cart_index>
+    <order_adminhtml_order_view>
+        <reference name="content">
+            <block type="order/adminhtml_order_view" name="order_view" template="order/view.phtml"></block>
+        </reference>
+    </order_adminhtml_order_view>
 </layout>

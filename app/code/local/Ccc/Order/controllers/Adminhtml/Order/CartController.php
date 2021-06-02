@@ -133,7 +133,7 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
                         unset($data['cart_address_id']);
                         unset($data['cart_id']);
 
-                        $addressId = $customer->getResource()->getAttribute('14')->getFrontEnd()->getValue($customer);
+                        $addressId = $customer->getResource()->getAttribute('13')->getFrontEnd()->getValue($customer);
                         $address = Mage::getModel('customer/address')->load($addressId);
                         $address->addData($data);
                         $address->save();
@@ -338,14 +338,17 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
             if (!$quantity = $this->getRequest()->getPost('update')) {
                 throw new Exception('invalid request');
             }
+            print_r($quantity);
+            foreach ($quantity as $key => $value) {
 
+                $cartItemId = $key;
+                $quantity = $value['quantity'];
+            }
 
-
-            $cartItemId = $quantity['cart_item_id'];
-            $quantity = $quantity['quantity'];
             $cartItem = Mage::getModel('order/cart_item')->load($cartItemId);
             $cartItem->setQuantity($quantity);
             $cartItem->save();
+
             Mage::getSingleton('adminhtml/session')->addSuccess('Product is Deleted Successfully');
             $this->_redirect('*/*/index');
         } catch (Exception $e) {
@@ -353,4 +356,8 @@ class Ccc_Order_Adminhtml_Order_CartController extends Mage_Adminhtml_Controller
             $this->_redirect('*/*/');
         }
     }
+    // public function gridAction()
+    // {
+    //     $this->getResponse()->setBody($this->getLayout()->createBlock('order/adminhtml_order_cart_search_grid')->toHtml());
+    // }
 }

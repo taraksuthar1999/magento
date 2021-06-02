@@ -57,7 +57,8 @@
                         <th class="no-link"><?php echo $this->helper('order')->__('Product') ?></th>
                         <th class="no-link"><?php echo $this->helper('order')->__('Price') ?></th>
                         <th class="no-link"><?php echo $this->helper('order')->__('Qty') ?></th>
-                        <th></th>
+                        <th colspan="4"></th>
+
 
                     </tr>
                 </thead>
@@ -65,7 +66,7 @@
                     <?php foreach ($items = $this->getCart()->getCartItems() as $key => $item) : ?>
                         <tr>
                             <td>
-                                <input type="text" name="update[cart_item_id]" value="<?= $item['cart_item_id'] ?>">
+                                <?= $item['cart_item_id'] ?>
                             </td>
                             <td>
                                 <?= $this->getProductName($item['product_id']) ?>
@@ -74,11 +75,13 @@
                                 <?= $item['price'] ?>
                             </td>
                             <td>
-                                <input type="text" name="update[quantity]" value="<?= $item['quantity'] ?>" id="">
+                                <input type="text" name="update[<?php echo $item['cart_item_id'] ?>][quantity]" value="<?= $item['quantity'] ?>" id="">
                             </td>
-                            <td>
+                            <td colspan="2">
                                 <button class="submit" name="delete" value="<?= $item['cart_item_id'] ?>" onclick="deleteItem()">Delete</button>
                             </td>
+
+
 
                         </tr>
                     <?php endforeach; ?>
@@ -88,11 +91,12 @@
                     <tr>
                         <td class="a-left" colspan="2"><?php echo $this->helper('order')->__('Total %d product(s)', count($items)) ?></td>
                         <td class="a-right"><?php echo $this->helper('order')->__('Subtotal:') ?></td>
-                        <td class="price"><strong><?php echo $this->getCart()->getSubtotal();
+                        <td class="price"><strong>$ <?php echo $this->getCart()->getSubtotal();
                                                     ?></strong></td>
-                        <td class="price"><strong><?php echo $this->getCart()->getDiscountAmount();
+                        <td class="price"><strong>$ <?php echo $this->getCart()->getDiscountAmount();
                                                     ?></strong></td>
-                        <td class="price"><strong><?php echo $this->getCart()->getSubtotalWithDiscount();
+                        <td class="a-right"><?php echo $this->helper('order')->__('Total:') ?></td>
+                        <td class="price"><strong>$ <?php echo $this->getCart()->getSubtotalWithDiscount();
                                                     ?></strong></td>
                         <td colspan="2">
                             <div class="form-buttons"><?php echo $this->getButtonHtml()

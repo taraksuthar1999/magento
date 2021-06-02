@@ -124,6 +124,11 @@ class Ccc_Order_Adminhtml_OrderController extends Mage_Adminhtml_Controller_Acti
     }
     public function viewAction()
     {
-        echo 111;
+        $this->loadLayout();
+        $orderId = (int)$this->getRequest()->getParam('order_id');
+        $order = Mage::getModel('order/order')->load($orderId);
+        
+
+        $this->renderLayout();
     }
 }
